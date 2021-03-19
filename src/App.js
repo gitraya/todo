@@ -1,16 +1,38 @@
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="col-6">
+        <h1>#todo</h1>
       </header>
+      <main>
+        <div>
+          <button>All</button>
+          <button>Active</button>
+          <button>Completed</button>
+        </div>
+        <div>
+          <form action="">
+            <div>
+              <input type="text" />
+              <input type="submit" value="Add" />
+            </div>
+          </form>
+        </div>
+        <div>
+          <div>
+            <input type="checkbox" name="" id="" />
+            <label htmlFor="">Do coding challenges</label>
+          </div>
+          <div>
+            <input type="checkbox" name="" id="" />
+            <label htmlFor="">Do coding challenges</label>
+          </div>
+          <div>
+            <input type="checkbox" name="" id="" />
+            <label htmlFor="">Do coding challenges</label>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

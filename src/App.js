@@ -73,6 +73,20 @@ const App = ({ defaultTodos }) => {
     />
   ));
 
+  // Show delete all button
+  const showDeleteAll = () => {
+    const todoCompleted = todos.filter((todo) => todo.completed === true);
+
+    if (todoCompleted.length > 1 && filter === 'Completed')
+      return (
+        <div className="del-all-container">
+          <button type="submit" onClick={deleteCompletedTodos}>
+            <i class="material-icons-round">delete_outline</i> delete all
+          </button>
+        </div>
+      );
+  };
+
   // Save todos in local storage
   const takeDataLocalTodos = () => {
     const data = JSON.parse(localStorage.getItem('dataTodos'));
@@ -99,13 +113,7 @@ const App = ({ defaultTodos }) => {
             {filter !== 'Completed' ? <Form addTodo={addTodo} /> : null}
           </div>
           <div className="todos-container">{todos ? todoList : null}</div>
-          {filter !== 'Completed' ? null : (
-            <div className="del-all-container">
-              <button type="submit" onClick={deleteCompletedTodos}>
-                <i class="material-icons-round">delete_outline</i> delete all
-              </button>
-            </div>
-          )}
+          {showDeleteAll()}
         </div>
       </main>
       <footer>

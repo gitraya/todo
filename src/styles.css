@@ -233,9 +233,11 @@ footer {
 /* Mobile device style */
 @media screen and (max-width: 540px) {
   header,
-  main,
-  footer {
+  main {
     margin: 0 5%;
+  }
+  footer {
+    margin: auto 5% 0;
   }
   .container {
     width: 100%;

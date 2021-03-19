@@ -8,6 +8,7 @@ const FilterButton = ({ name, isPressed, setFilter }) => {
       onClick={() => setFilter(name)}
     >
       {name}
+      <div className="line"></div>
     </button>
   );
 };

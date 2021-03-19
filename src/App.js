@@ -19,6 +19,16 @@ const App = ({ dataTodos }) => {
     setTodos([...todos, newTodo]);
   };
 
+  const deleteTodo = (id) => {
+    const remainingTodo = todos.filter((todo) => id !== todo.id);
+    setTodos(remainingTodo);
+  };
+
+  const deleteCompletedTodos = () => {
+    const remainingTodo = todos.filter((todo) => false === todo.completed);
+    setTodos(remainingTodo);
+  };
+
   const toggleCompletedTodo = (id) => {
     const updateTodos = todos.map((todo) => {
       if (id === todo.id) {
@@ -38,6 +48,8 @@ const App = ({ dataTodos }) => {
         key={todo.id}
         completed={todo.completed}
         toggleCompletedTodo={toggleCompletedTodo}
+        filter={filter}
+        deleteTodo={deleteTodo}
       />
     );
   });
@@ -59,10 +71,20 @@ const App = ({ dataTodos }) => {
       <main>
         <div className="container">
           <div className="filter-container">{filterList}</div>
-          <div className="form-container">
-            <Form addTodo={addTodo} />
+          <div
+            className="form-container"
+            style={{ margin: filter !== 'Completed' ? null : '0px' }}
+          >
+            {filter !== 'Completed' ? <Form addTodo={addTodo} /> : null}
           </div>
           <div className="todos-container">{todoList}</div>
+          {filter !== 'Completed' ? null : (
+            <div className="del-all-container">
+              <button type="submit" onClick={deleteCompletedTodos}>
+                <i class="material-icons-round">delete_outline</i> delete all
+              </button>
+            </div>
+          )}
         </div>
       </main>
     </div>

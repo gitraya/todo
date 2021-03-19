@@ -1,4 +1,56 @@
-function App() {
+import { useState } from 'react';
+import Form from './components/Form';
+import Todo from './components/Todo';
+import FilterButton from './components/FilterButton';
+import { nanoid } from 'nanoid';
+const FILTER_MAP = {
+  All: () => true,
+  Active: (todo) => !todo.completed,
+  Completed: (todo) => todo.completed,
+};
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
+const App = ({ dataTodos }) => {
+  const [todos, setTodos] = useState(dataTodos);
+  const [filter, setFilter] = useState('All');
+
+  const addTodo = (name) => {
+    const newTodo = { id: `todo-${nanoid()}`, name: name, completed: false };
+    setTodos([...todos, newTodo]);
+  };
+
+  const toggleCompletedTodo = (id) => {
+    const updateTodos = todos.map((todo) => {
+      if (id === todo.id) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    setTodos(updateTodos);
+  };
+
+  // Displaying todo
+  const todoList = todos.filter(FILTER_MAP[filter]).map((todo) => {
+    return (
+      <Todo
+        name={todo.name}
+        id={todo.id}
+        key={todo.id}
+        completed={todo.completed}
+        toggleCompletedTodo={toggleCompletedTodo}
+      />
+    );
+  });
+
+  const filterList = FILTER_NAMES.map((name) => (
+    <FilterButton
+      name={name}
+      key={name}
+      isPressed={name === filter}
+      setFilter={setFilter}
+    />
+  ));
+
   return (
     <div className="App">
       <header className="col-6">
@@ -6,37 +58,15 @@ function App() {
       </header>
       <main>
         <div className="container">
-          <div className="option-container">
-            <button>All</button>
-            <button>Active</button>
-            <button>Completed</button>
-          </div>
+          <div className="filter-container">{filterList}</div>
           <div className="form-container">
-            <form action="">
-              <div className="form-control">
-                <input type="text" className="input-text" />
-                <input type="submit" className="button-submit" value="Add" />
-              </div>
-            </form>
+            <Form addTodo={addTodo} />
           </div>
-          <div>
-            <div>
-              <input type="checkbox" name="" id="" />
-              <label htmlFor="">Do coding challenges</label>
-            </div>
-            <div>
-              <input type="checkbox" name="" id="" />
-              <label htmlFor="">Do coding challenges</label>
-            </div>
-            <div>
-              <input type="checkbox" name="" id="" />
-              <label htmlFor="">Do coding challenges</label>
-            </div>
-          </div>
+          <div className="todos-container">{todoList}</div>
         </div>
       </main>
     </div>
   );
-}
+};
 
 export default App;

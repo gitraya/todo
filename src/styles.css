@@ -39,12 +39,12 @@ footer {
   flex-direction: column;
 }
 
-.option-container {
+.filter-container {
   display: flex;
   height: 3rem;
   border-bottom: 1px solid #bdbdbd;
 }
-.option-container button {
+.filter-container button {
   flex: 1 1 0px;
   font-weight: 600;
   font-size: 0.9rem;
@@ -53,6 +53,14 @@ footer {
   border: none;
   background: none;
 }
+.filter-container button:focus {
+  outline: none !important;
+}
+.filter-container button:active {
+  border-width: 5px;
+  border-bottom: 4px solid #2f80ed;
+  border-radius: 4px 4px 0px 0px;
+}
 
 .form-container {
   margin: 1rem 0;
@@ -60,12 +68,68 @@ footer {
 
 .form-control {
   display: flex;
+  height: 3.5rem;
 }
 
 .input-text {
+  border: 1px solid #bdbdbd;
+  border-radius: 12px;
+  padding: 20px 12px;
+  color: #333;
   flex-grow: 1;
+  margin-right: 1.5rem;
+}
+.input-text:hover,
+.input-text:focus {
+  outline: none !important;
+  border: 1px solid #333;
+  border-radius: 12px;
+}
+.input-text::placeholder {
+  color: #828282;
 }
 .button-submit {
   cursor: pointer;
   flex-grow: 0.4;
+  background: #2f80ed;
+  box-shadow: 0px 2px 6px rgba(127, 177, 243, 0.4);
+  border-radius: 12px;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+}
+.button-submit:hover {
+  box-shadow: 0px 8px 12px rgba(127, 177, 243, 0.4);
+  background: #416ca3;
+}
+.button-submit:focus {
+  outline: none !important;
+}
+
+.todos-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0.25rem 0;
+}
+
+.todo {
+  margin: 0.45rem 0;
+  display: flex;
+  align-items: center;
+}
+.checkbox {
+  border: 1px solid #828282;
+  border-radius: 4px;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+.label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.checkbox:checked ~ .label {
+  text-decoration: line-through;
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Form from './components/Form';
 import Todo from './components/Todo';
 import FilterButton from './components/FilterButton';
@@ -10,25 +10,33 @@ const FILTER_MAP = {
 };
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
-const App = ({ dataTodos }) => {
-  const [todos, setTodos] = useState(dataTodos);
+const App = ({ defaultTodos }) => {
+  // Todos and filter todo state
+  const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState('All');
 
+  // Add new todo
   const addTodo = (name) => {
     const newTodo = { id: `todo-${nanoid()}`, name: name, completed: false };
+    localStorage.setItem('dataTodos', JSON.stringify([...todos, newTodo]));
     setTodos([...todos, newTodo]);
   };
 
+  // Delete todo
   const deleteTodo = (id) => {
     const remainingTodo = todos.filter((todo) => id !== todo.id);
+    localStorage.setItem('dataTodos', JSON.stringify(remainingTodo));
     setTodos(remainingTodo);
   };
 
+  // Delete completed todos
   const deleteCompletedTodos = () => {
     const remainingTodo = todos.filter((todo) => false === todo.completed);
+    localStorage.setItem('dataTodos', JSON.stringify(remainingTodo));
     setTodos(remainingTodo);
   };
 
+  // Toggle completed todo
   const toggleCompletedTodo = (id) => {
     const updateTodos = todos.map((todo) => {
       if (id === todo.id) {
@@ -36,6 +44,7 @@ const App = ({ dataTodos }) => {
       }
       return todo;
     });
+    localStorage.setItem('dataTodos', JSON.stringify(updateTodos));
     setTodos(updateTodos);
   };
 
@@ -54,6 +63,7 @@ const App = ({ dataTodos }) => {
     );
   });
 
+  // Filtering todo
   const filterList = FILTER_NAMES.map((name) => (
     <FilterButton
       name={name}
@@ -62,6 +72,17 @@ const App = ({ dataTodos }) => {
       setFilter={setFilter}
     />
   ));
+
+  // Save todos in local storage
+  const takeDataLocalTodos = () => {
+    const data = JSON.parse(localStorage.getItem('dataTodos'));
+    if (data) return setTodos(data);
+    if (!data) return setTodos(defaultTodos);
+  };
+
+  useEffect(() => {
+    takeDataLocalTodos();
+  }, []);
 
   return (
     <div className="App">
@@ -77,7 +98,7 @@ const App = ({ dataTodos }) => {
           >
             {filter !== 'Completed' ? <Form addTodo={addTodo} /> : null}
           </div>
-          <div className="todos-container">{todoList}</div>
+          <div className="todos-container">{todos ? todoList : null}</div>
           {filter !== 'Completed' ? null : (
             <div className="del-all-container">
               <button type="submit" onClick={deleteCompletedTodos}>
@@ -87,6 +108,21 @@ const App = ({ dataTodos }) => {
           )}
         </div>
       </main>
+      <footer>
+        <small className="copyright">
+          created by
+          <b>
+            <a
+              href="https://github.com/gitraya"
+              target="_blank"
+              rel="noreferrer"
+            >
+              gitraya
+            </a>
+          </b>
+          - devChallenges.io
+        </small>
+      </footer>
     </div>
   );
 };

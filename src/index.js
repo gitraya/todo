@@ -10,7 +10,7 @@ const DATA = [
 
 ReactDOM.render(
   <React.StrictMode>
-    <App dataTodos={DATA} />
+    <App defaultTodos={DATA} />
   </React.StrictMode>,
   document.getElementById('root')
 );
